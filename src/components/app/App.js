@@ -1,23 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import AppHeader from '../appHeader/AppHeader';
+import FoodItemList from '../foodItemList/FoodItemList';
 
-function App() {
+const App = () => {
+
+  const [term, setTerm] = useState('');
+  const [filter, setFilter] = useState('all');
+
+  const searchProduct = (items, term) => {
+    if (term.lemgth === 0) {
+      return items;
+    }
+
+    return items.filter(item => {
+      return item.name.indexOf(term) > -1
+    })
+  }
+
+  const onUpdateSearch = (term) => {
+    setTerm(term)
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <AppHeader onUpdateSearch={onUpdateSearch}/>
+      <main>
+        <FoodItemList term={term}/>
+      </main>
     </div>
   );
 }
