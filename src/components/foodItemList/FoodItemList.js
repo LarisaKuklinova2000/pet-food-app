@@ -29,6 +29,8 @@ const FoodItemList = (props) => {
             array = array.filter(item => item.name.toLowerCase().indexOf(props.term.toLowerCase()) > -1)
         }
 
+        props.filterProducts(array, props.filter)
+
         const items = array.map((item) => {
             return (
                 <div 
@@ -64,6 +66,7 @@ const FoodItemList = (props) => {
     }
 
     const items = renderProductItems(productList)
+    console.log(productList)
     
     return (
         <div className="container">
