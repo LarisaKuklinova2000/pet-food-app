@@ -70,7 +70,8 @@ const FoodItemList = (props) => {
     
     return (
         <div className="container">
-            {items.length === 0? 'извините, по Вашему запросу ничего не найдено =(': items}
+            <div>{props.term.length > 0 && items.length !== 0 ?`по вашему запросу: "${props.term}" найдено ${items.length} позиции`: null}</div>
+            <div className="products__wrapper">{items.length === 0? 'извините, по Вашему запросу ничего не найдено =(': items}</div>
         </div>
     )
 }
