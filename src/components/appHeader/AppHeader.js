@@ -17,7 +17,7 @@ const AppHeader = (props) => {
         <header className='app__header'>
             <h1>
                 <a href="#">
-                    Food for your pet
+                    Еда для собакена
                 </a>
             </h1>
             <input type="text"
@@ -27,8 +27,8 @@ const AppHeader = (props) => {
                 onChange={onUpdateSearch} />
             <nav className='app__menu'>
                 <ul>
-                    <li><a href="#">food</a></li>
-                    <li><a href="#">to buy</a></li>
+                    <li><a href="#">каталог</a></li>
+                    <li><a href="#">корзина</a></li>
                 </ul>
             </nav>
         </header>

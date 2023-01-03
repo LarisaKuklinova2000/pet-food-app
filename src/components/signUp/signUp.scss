@@ -1,0 +1,57 @@
+@import '../../style/variables.scss';
+
+.signUpForm {
+	width: 100%;
+	padding-top: 50px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	.signInput {
+		width: 100%;
+		padding: 15px;
+		margin: 5px 0 22px 0;
+		display: inline-block;
+		border: none;
+		background: #f1f1f1;
+		border-radius: 7px;
+	}
+		
+	hr {
+		border: 1px solid #f1f1f1;
+		margin-bottom: 25px;
+	}
+		
+	.registerbtn {
+		background-color: #4CAF50;
+		color: white;
+		padding: 16px 20px;
+		margin: 8px 0;
+		border: none;
+		cursor: pointer;
+		width: 100%;
+		opacity: 0.9;
+		border-radius: 10px;
+	}
+		
+	.registerbtn:hover {
+		opacity:1;
+	}
+		
+	a {
+		color: dodgerblue;
+	}
+		
+	.signin {
+		background-color: #f1f1f1;
+		text-align: center;
+	}
+
+	.form__wrapper {
+		display: block;
+		width: 50%;
+	}
+	.authorization__wrapper {
+		display: none;
+	}
+}

@@ -2,45 +2,35 @@ class ApiService {
     _apiBase = 'https://api.react-learning.ru';
     _apiSignUp = 'https://api.react-learning.ru/signup';
     _apiSignIn = 'https://api.react-learning.ru/signin'
-    _apiToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2IxNTdkMjU5Yjk4YjAzOGY3N2EzZjUiLCJncm91cCI6InNtOCIsImlhdCI6MTY3MjU2Njg4MywiZXhwIjoxNzA0MTAyODgzfQ.edwgx9NbW_ceLXfG-_xDoOalY4Q_6Rd0KQkYvkgYENo';
-    _apiEmail = 'gnosticism100500@gmail.com';
-    _apiPassword = '1234'
 
-    signUp = async (email, group, password) => {
+    signUp = async (body) => {
         const result = await fetch(this._apiSignUp, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
             },
-            body: {
-                "email": email,
-                "group": group,
-                "password": password
-            }
+            body: JSON.stringify(body)
         });
         return await result.json();
     };
 
-    signIn = async (email, password) => {
+    signIn = async (body) => {
         const result = await fetch(this._apiSignIn, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
             },
-            body: {
-                "email": email,
-                "password": password
-            }
+            body: JSON.stringify(body)
         });
         return await result.json();
     };
 
-    getResource = async (url) => {
+    getResource = async (url, token) => {
         let res = await fetch(url, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json',
-                'authorization': `Bearer ${this._apiToken}`
+                'authorization': `Bearer ${token}`
             }
         });
 
@@ -51,8 +41,8 @@ class ApiService {
         return await res.json()
     }
 
-    getAllProducts = async () => {
-        const result = await this.getResource(`${this._apiBase}/products`)
+    getAllProducts = async (token) => {
+        const result = await this.getResource(`${this._apiBase}/products`, token)
         return result
     }
 

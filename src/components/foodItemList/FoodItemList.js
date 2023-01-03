@@ -10,10 +10,10 @@ const FoodItemList = (props) => {
 
     useEffect(() => {
         onRequest();
-    }, [])
+    }, [props.token])
 
     const onRequest = () => {
-        apiService.getAllProducts()
+        apiService.getAllProducts(props.token)
             .then(res => onProductListLoaded(res.products))
     }
 
@@ -66,7 +66,6 @@ const FoodItemList = (props) => {
     }
 
     const items = renderProductItems(productList)
-    console.log(productList)
     
     return (
         <div className="container">

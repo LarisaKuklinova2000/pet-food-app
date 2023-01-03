@@ -3,11 +3,13 @@ import moment from "moment/moment";
 import AppHeader from '../appHeader/AppHeader';
 import FoodItemList from '../foodItemList/FoodItemList';
 import FilterPanel from "../filterPanel/FilterPanel";
+import SignUp from "../signUp/SignUp";
 
 const App = () => {
 
 	const [term, setTerm] = useState('');
 	const [filter, setFilter] = useState('all');
+	const [token, setToken] = useState(localStorage.getItem('token'));
 
 	const raitingCounter = (item) => {
 		let raiting = 0;
@@ -34,6 +36,11 @@ const App = () => {
 		}
 	}
 
+	const onUpdateToken = (token) => {
+		localStorage.setItem('token', token)
+		setToken(token)
+	}
+
 	const onFilterSelect = (filter) => {
 		setFilter(filter);
 	}
@@ -45,14 +52,16 @@ const App = () => {
 	return (
 		<div className="app">
 			<AppHeader onUpdateSearch={onUpdateSearch}/>
-			<FilterPanel filter={filter} onFilterSelect={onFilterSelect}/>
-			<main>
-				<FoodItemList 
-					term={term} 
-					filter={filter} 
-					filterProducts={filterProducts} 
-					raitingCounter={raitingCounter}/>
-			</main>
+			{token? <FilterPanel filter={filter} onFilterSelect={onFilterSelect}/>: null}
+			{!token? <SignUp onUpdateToken={onUpdateToken}/>: null}
+			{token? <main>
+						<FoodItemList 
+							term={term} 
+							filter={filter} 
+							filterProducts={filterProducts} 
+							raitingCounter={raitingCounter}
+							token={token}/>
+					</main>: null}
 		</div>
 	);
 }
