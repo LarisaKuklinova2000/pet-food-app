@@ -1,16 +1,36 @@
 class ApiService {
     _apiBase = 'https://api.react-learning.ru';
+    _apiSignUp = 'https://api.react-learning.ru/signup';
+    _apiSignIn = 'https://api.react-learning.ru/signin'
     _apiToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2IxNTdkMjU5Yjk4YjAzOGY3N2EzZjUiLCJncm91cCI6InNtOCIsImlhdCI6MTY3MjU2Njg4MywiZXhwIjoxNzA0MTAyODgzfQ.edwgx9NbW_ceLXfG-_xDoOalY4Q_6Rd0KQkYvkgYENo';
     _apiEmail = 'gnosticism100500@gmail.com';
     _apiPassword = '1234'
 
-    postData = async (url, data) => {
-        const result = await fetch(url, {
+    signUp = async (email, group, password) => {
+        const result = await fetch(this._apiSignUp, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
             },
-            body: data //тут будут данные из формы авторизации
+            body: {
+                "email": email,
+                "group": group,
+                "password": password
+            }
+        });
+        return await result.json();
+    };
+
+    signIn = async (email, password) => {
+        const result = await fetch(this._apiSignIn, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: {
+                "email": email,
+                "password": password
+            }
         });
         return await result.json();
     };
