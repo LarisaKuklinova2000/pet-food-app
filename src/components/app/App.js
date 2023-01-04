@@ -10,6 +10,7 @@ const App = () => {
 	const [term, setTerm] = useState('');
 	const [filter, setFilter] = useState('all');
 	const [token, setToken] = useState(localStorage.getItem('token'));
+	const [favorite, setFavorite] = useState(0)
 
 	const raitingCounter = (item) => {
 		let raiting = 0;
@@ -36,6 +37,10 @@ const App = () => {
 		}
 	}
 
+	const onUpdateFavorite = (favorite) => {
+		setFavorite(favorite)
+	}
+
 	const onUpdateToken = (token) => {
 		localStorage.setItem('token', token)
 		setToken(token)
@@ -51,7 +56,9 @@ const App = () => {
 
 	return (
 		<div className="app">
-			<AppHeader onUpdateSearch={onUpdateSearch}/>
+			<AppHeader 
+				onUpdateSearch={onUpdateSearch}
+				favorite={favorite}/>
 			{token? <FilterPanel filter={filter} onFilterSelect={onFilterSelect}/>: null}
 			{!token? <SignUp onUpdateToken={onUpdateToken}/>: null}
 			{token? <main>
@@ -60,7 +67,9 @@ const App = () => {
 							filter={filter} 
 							filterProducts={filterProducts} 
 							raitingCounter={raitingCounter}
-							token={token}/>
+							token={token}
+							onUpdateFavorite={onUpdateFavorite}
+							favorite={favorite}/>
 					</main>: null}
 		</div>
 	);

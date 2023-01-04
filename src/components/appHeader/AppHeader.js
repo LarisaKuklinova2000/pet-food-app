@@ -27,6 +27,7 @@ const AppHeader = (props) => {
                 onChange={onUpdateSearch} />
             <nav className='app__menu'>
                 <ul>
+                    <li><a href="#">{props.favorite} в избранном</a></li>
                     <li><a href="#">каталог</a></li>
                     <li><a href="#">корзина</a></li>
                 </ul>
