@@ -42,8 +42,12 @@ const App = () => {
 	}
 
 	const onUpdateToken = (token) => {
-		localStorage.setItem('token', token)
-		setToken(token)
+
+		if (token !== undefined) {
+			localStorage.setItem('token', token)
+			setToken(token)
+		}
+
 	}
 
 	const onFilterSelect = (filter) => {

@@ -23,6 +23,11 @@ class ApiService {
             },
             body: JSON.stringify(body)
         });
+
+        if (!result.ok) {
+            alert(`Вы ввели неправильныую почту и (или) пароль`);
+        }
+
         return await result.json();
     };
 

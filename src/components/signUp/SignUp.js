@@ -63,7 +63,7 @@ const SignUp = (props) => {
                             type="button"
                             onClick={() => {document.querySelector('.form__wrapper').style.display = 'none';
                                             document.querySelector('.authorization__wrapper').style.display = 'block' 
-                        }}> войдите</button>.
+                        }}> войдите</button>
                     </p>
                 </div>
 
@@ -106,7 +106,7 @@ const SignUp = (props) => {
                             type="button"
                             onClick={() => {document.querySelector('.form__wrapper').style.display = 'block';
                                             document.querySelector('.authorization__wrapper').style.display = 'none' 
-                        }}> возвращаемся</button>.
+                        }}> возвращаемся</button>
                     </p>
                 </div>
             </div>

@@ -11,11 +11,13 @@ const FoodItemList = (props) => {
     const apiService = new ApiService();
 
     const onUpdateMyId = () => {
-		apiService.getMyId(props.token)
+        if (props.token !== undefined) {
+            apiService.getMyId(props.token)
             .then(res => {
                 setMyId(res._id); 
                 localStorage.setItem('id', res._id)
             }) 
+        }
 	}
 
     const onRequest = () => {
