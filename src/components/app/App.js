@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BrowserRouter as Router, Route, Routes, redirect } from "react-router-dom";
 import moment from "moment/moment";
 import AppHeader from '../appHeader/AppHeader';
 import FoodItemList from '../foodItemList/FoodItemList';
@@ -59,23 +60,32 @@ const App = () => {
 	}
 
 	return (
-		<div className="app">
+		<Router>
+			<div className="app">
 			<AppHeader 
 				onUpdateSearch={onUpdateSearch}
 				favorite={favorite}/>
-			{token? <FilterPanel filter={filter} onFilterSelect={onFilterSelect}/>: null}
-			{!token? <SignUp onUpdateToken={onUpdateToken}/>: null}
-			{token? <main>
-						<FoodItemList 
-							term={term} 
-							filter={filter} 
-							filterProducts={filterProducts} 
-							raitingCounter={raitingCounter}
-							token={token}
-							onUpdateFavorite={onUpdateFavorite}
-							favorite={favorite}/>
-					</main>: null}
-		</div>
+				<main>
+					<Routes>
+						<Route path='/' element={'зарегистрируйтесь или войдите со своими данными'}/>
+						<Route path='/sign' element={<SignUp onUpdateToken={onUpdateToken}/>} />
+						<Route path='/catalog' element={
+													<>
+														<FilterPanel filter={filter} onFilterSelect={onFilterSelect}/>
+														<FoodItemList
+															term={term} 
+															filter={filter} 
+															filterProducts={filterProducts} 
+															raitingCounter={raitingCounter}
+															token={token}
+															onUpdateFavorite={onUpdateFavorite}
+															favorite={favorite}/>
+													</>
+												} />
+					</Routes>
+				</main>
+			</div>
+		</Router>
 	);
 }
 

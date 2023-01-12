@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import './appHeader.scss';
 
 const AppHeader = (props) => {
@@ -16,9 +17,7 @@ const AppHeader = (props) => {
     return (
         <header className='app__header'>
             <h1>
-                <a href="#">
-                    Еда для собакена
-                </a>
+                <NavLink end to='/sign' >регистрация</NavLink>
             </h1>
             <input type="text"
                 className="form-control search-input"
@@ -28,7 +27,7 @@ const AppHeader = (props) => {
             <nav className='app__menu'>
                 <ul>
                     <li><a href="#">{props.favorite} в избранном</a></li>
-                    <li><a href="#">каталог</a></li>
+                    <NavLink end to='/catalog' >Каталог</NavLink>
                     <li><a href="#">корзина</a></li>
                 </ul>
             </nav>

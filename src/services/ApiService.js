@@ -1,3 +1,5 @@
+import { redirect } from "react-router-dom";
+
 class ApiService {
     _apiBase = 'https://api.react-learning.ru';
     _apiSignUp = 'https://api.react-learning.ru/signup';
@@ -32,6 +34,7 @@ class ApiService {
     };
 
     getResource = async (url, token) => {
+
         let res = await fetch(url, {
             method: 'GET',
             headers: {
