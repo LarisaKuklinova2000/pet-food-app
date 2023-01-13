@@ -1,7 +1,7 @@
-import { redirect } from "react-router-dom";
 
 class ApiService {
     _apiBase = 'https://api.react-learning.ru';
+    _apiReviews = 'https://api.react-learning.ru/products/review/';
     _apiSignUp = 'https://api.react-learning.ru/signup';
     _apiSignIn = 'https://api.react-learning.ru/signin';
     _apiLike = 'https://api.react-learning.ru/products/likes/';
@@ -14,6 +14,11 @@ class ApiService {
             },
             body: JSON.stringify(body)
         });
+        if (!result.ok) {
+            alert(`регистрация не удалась, проверьте корректность данных`);
+        } else {
+            alert(`регистрация прошла успешно, теперь авторизуйтесь`);
+        }
         return await result.json();
     };
 
@@ -25,16 +30,13 @@ class ApiService {
             },
             body: JSON.stringify(body)
         });
-
         if (!result.ok) {
             alert(`Вы ввели неправильныую почту и (или) пароль`);
         }
-
         return await result.json();
     };
 
     getResource = async (url, token) => {
-
         let res = await fetch(url, {
             method: 'GET',
             headers: {
@@ -42,17 +44,25 @@ class ApiService {
                 'authorization': `Bearer ${token}`
             }
         });
-
         if (!res.ok) {
             throw new Error(`Could not fetch ${url}, status: ${res.status}`);
         }
-
         return await res.json()
     }
 
     getAllProducts = async (token) => {
         const result = await this.getResource(`${this._apiBase}/products`, token)
         return result
+    }
+
+    getProduct = async (id, token) => {
+        const result = await this.getResource(`${this._apiBase}/products/${id}`, token)
+        return result;
+    }
+
+    getAllReviewsOfProduct = async (id, token) => {
+        const result = await this.getResource(`${this._apiReviews}${id}`, token)
+        return result;
     }
 
     like = async (id, token) => {
@@ -77,7 +87,7 @@ class ApiService {
         return await result.json();
     };
 
-    getMyId = async (token) => {
+    getMyInfo = async (token) => {
         let res = await fetch('https://api.react-learning.ru/v2/sm8/users/me', {
             method: 'GET',
             headers: {

@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import Product from "../product/Product";
-import './FoodItemList.scss';
 import ApiService from "../../services/ApiService";
+import './FoodItemList.scss';
+import Spinner from "../spinner/Spinner";
 
 const FoodItemList = (props) => {
 
@@ -12,10 +13,10 @@ const FoodItemList = (props) => {
 
     const onUpdateMyId = () => {
         if (props.token !== undefined) {
-            apiService.getMyId(props.token)
-            .then(res => {
-                setMyId(res._id); 
-                localStorage.setItem('id', res._id)
+            apiService.getMyInfo(props.token)
+                .then(res => {
+                    setMyId(res._id); 
+                    localStorage.setItem('id', res._id)
             }) 
         }
 	}
@@ -52,6 +53,7 @@ const FoodItemList = (props) => {
                                             pictures={item.pictures}
                                             name={item.name}
                                             description={item.description}
+                                            stock={item.stock}
                                             token={props.token}
                                             userId={myId}
                                             likes={item.likes}
@@ -64,8 +66,10 @@ const FoodItemList = (props) => {
     
     return (
         <div className="container">
+            {props.token? console.log(123): props.toSign()}
             <div>{props.term.length > 0 && items.length !== 0 ?`по вашему запросу: "${props.term}" найдено ${items.length} позиции`: null}</div>
-            <div className="products__wrapper">{items.length === 0? 'извините, по Вашему запросу ничего не найдено =(': items}</div>
+            <div className="products__wrapper">{props.term.length > 0 && items.length === 0? 'извините, по Вашему запросу ничего не найдено =(': items}</div>
+            <div>{!props.term.length && items.length === 0? <Spinner />: null}</div>
         </div>
     )
 }

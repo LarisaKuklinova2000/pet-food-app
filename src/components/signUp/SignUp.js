@@ -49,7 +49,6 @@ const SignUp = (props) => {
                         e.preventDefault();
                         apiService.signUp({email: email, group: group, password: password})
                             .then(() => {
-                                alert(`регистрация прошла успешно! Ваши данные для авторизации: почта: ${email}, пароль: ${password}`);
                                 document.querySelector('.signUpForm').reset();
                                 document.querySelector('.form__wrapper').style.display = 'none'
                                 document.querySelector('.authorization__wrapper').style.display = 'block'
@@ -96,7 +95,7 @@ const SignUp = (props) => {
                     onClick={(e) => {
                         e.preventDefault();
                         apiService.signIn({email: email, password: password})
-                            .then(res => props.onUpdateToken(res.token))
+                            .then(res => {props.onUpdateToken(res.token); props.onUpdateMyName(res.data.name)});
                     }}
                     >авторизация</button>
 

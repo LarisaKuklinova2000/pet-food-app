@@ -3,6 +3,16 @@ import './filterPanel.scss';
 
 const FilterPanel = (props) => {
 
+    const [term, setTerm] = useState('');
+
+    useEffect(() => {
+        props.onUpdateSearch(term)
+    }, [term])
+
+    const onUpdateSearch = (e) => {
+        setTerm(e.target.value);
+    }
+
     const buttonsData = [
         {name: 'all', label: 'все товары'},
         {name: 'new', label: 'новинки'},
@@ -27,9 +37,16 @@ const FilterPanel = (props) => {
     })
 
     return (
+        <>
         <div className='btn__wrapper'>
             <div className='btn-group'>{buttons}</div>
         </div>
+        <input type="text"
+                className="form-control search-input"
+                placeholder="Найти товар"
+                value={term}
+                onChange={onUpdateSearch} />
+        </>
     )
 
 

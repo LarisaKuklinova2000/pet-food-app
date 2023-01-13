@@ -49,7 +49,7 @@
                 height: 120px;
                 margin-bottom: 30px; 
             }
-            h3 {
+            .cardTitle {
                 font-size: 1.3rem;
                 color: rgb(73, 73, 73);
                 z-index: 1;
@@ -63,7 +63,7 @@
                 z-index: 1;
                 transition: 0.5s;
             }
-            a {
+            button {
                 position: absolute;
                 display: inline-block;
                 padding: 8px 20px;
