@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import ApiService from '../../services/ApiService';
 import './aboutMe.scss';
@@ -16,7 +16,7 @@ const AboutMe = (props) => {
 
     const {avatar, email, name, group, about} = myInfo;
 
-    return (
+    const aboutMeInfo = 
         <div className="single-product">
             <img src={avatar} alt='food img' className="single-product__img"/>
             <div className="single-product__info">
@@ -30,6 +30,11 @@ const AboutMe = (props) => {
                 <Link to='/' className="single-product__back" onClick={() => {localStorage.clear(); window.location.reload()}}>выйти из профиля</Link>
             </div>
         </div>
+
+    return (
+        <>
+            {props.token? aboutMeInfo: <Navigate to='/sign' />}
+        </>
     )
 }
 

@@ -57,7 +57,9 @@ const App = () => {
 		setTerm(term);
 	}
 	const toSign = () => {
-		if (!token) {
+		if (token) {
+			return <Navigate to='/catalog' />
+		} else if(!token) {
 			return <Navigate to='/' />
 		}
 	}
@@ -71,7 +73,7 @@ const App = () => {
 				myName={myName}/>
 				<main>
 					<Routes>
-						<Route path='/' element={'зарегистрируйтесь или войдите со своими данными'}/>
+						<Route path='/' element={token? <Navigate to='/catalog' />: <Navigate to='/sign' />}/>
 						<Route path='/sign' element={<SignUp onUpdateToken={onUpdateToken} onUpdateMyName={onUpdateMyName}/>} />
 						<Route path='/catalog' element={
 													<>

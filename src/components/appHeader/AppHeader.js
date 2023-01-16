@@ -10,7 +10,7 @@ const AppHeader = (props) => {
             </h1>
             <nav className='app__menu'>
                 <ul>
-                    <li><NavLink end to='/catalog' >избранное</NavLink></li>
+                    <li><NavLink end to='/catalog' >{`избранное ${props.favorite}`}</NavLink></li>
                     <li><NavLink end to='/catalog' >корзина</NavLink></li>
                     <li>{!props.token? <NavLink end to='/sign' >регистрация</NavLink>: <NavLink end to='/me' >{localStorage.getItem('myName')}</NavLink>}</li>
                 </ul>

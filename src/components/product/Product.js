@@ -52,7 +52,7 @@ const Product = (props) => {
                     <div className="inStock">в наличии: <br /> {props.stock} шт</div>
                     <img src={props.pictures} alt="картинка товара"/>
                     <h3 className="cardTitle"><Link to={`/catalog/${props.id}`}>{props.name}</Link></h3>
-                    <p>{props.description}</p>
+                    <p>{props.description.length > 250? props.description.slice(0, 250) + '...': props.description}</p>
                     <button href="#">в корзину</button>
                     <i 
                         className={heartClass}

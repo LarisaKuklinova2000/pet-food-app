@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import ApiService from "../../services/ApiService";
 import './signUp.scss'
 
@@ -7,12 +8,14 @@ const SignUp = (props) => {
     const [email, setEmail] = useState("");
     const [group, setGroup] = useState("");
     const [password, setPassword] = useState("");
+    const [token, setToken] = useState(localStorage.getItem('token'));
+    const navigate = useNavigate();
 
     const apiService = new ApiService();
 
-    return (
-        <form className="signUpForm" action="">
-            <div className="form__wrapper">
+    const regForm = 
+        <>
+        <div className="form__wrapper">
                 <h1>Регистрация</h1>
                 <p>пожалуйста, заполните форму создания аккаунта</p>
 
@@ -95,7 +98,9 @@ const SignUp = (props) => {
                     onClick={(e) => {
                         e.preventDefault();
                         apiService.signIn({email: email, password: password})
-                            .then(res => {props.onUpdateToken(res.token); props.onUpdateMyName(res.data.name)});
+                            .then(res => {props.onUpdateToken(res.token); 
+                                          props.onUpdateMyName(res.data.name);
+                                          navigate(`/catalog`)});
                     }}
                     >авторизация</button>
 
@@ -109,6 +114,12 @@ const SignUp = (props) => {
                     </p>
                 </div>
             </div>
+        </>
+
+    
+    return (
+        <form className="signUpForm" action="">
+            {token? <Navigate to='/catalog' />: regForm}
         </form>
     )
 }
