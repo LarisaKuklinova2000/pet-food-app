@@ -1,50 +1,57 @@
-import { useState, useEffect, useRef } from "react";
-import Product from "../product/Product";
-import ApiService from "../../services/ApiService";
-import './FoodItemList.scss';
-import Spinner from "../spinner/Spinner";
+import { useState } from "react"
+import { Navigate } from "react-router-dom"
+import {useSelector} from 'react-redux'
+import moment from "moment/moment";
+import { useGetAllProductsQuery } from '../../api/apiSlice'
+
+import Product from "../product/Product"
+import './FoodItemList.scss'
+import Spinner from "../spinner/Spinner"
 
 const FoodItemList = (props) => {
 
-    const [productList, setProductList] = useState([]);
-    const [myId, setMyId] = useState(localStorage.getItem('id'))
+    const {token} = useSelector(state => state.regInfo)
+    const {activeFilter, term} = useSelector(state => state.filters)
+    const {
+        data: products = [],
+        isLoading
+    } = useGetAllProductsQuery(token? token: localStorage.getItem('token'));
 
-    const apiService = new ApiService();
+    const [myId] = useState(localStorage.getItem('id'))
 
-    const onUpdateMyId = () => {
-        if (props.token !== undefined) {
-            apiService.getMyInfo(props.token)
-                .then(res => {
-                    setMyId(res._id); 
-                    localStorage.setItem('id', res._id)
-            }) 
-        }
+    const raitingCounter = (item) => {
+		let raiting = 0;
+		raiting = item.reviews.map(item => raiting + item.rating)
+		return raiting.length>0? raiting.reduce((a, b) => a + b) / raiting.length: 0
 	}
 
-    const onRequest = () => {
-        apiService.getAllProducts(props.token)
-            .then(res => onProductListLoaded(res.products))
-    }
+    const filterProducts = (items, filter) => {
 
-    useEffect(() => {
-        onRequest();
-        onUpdateMyId();
-    }, [props.token])
+        const arrForSort = [...items]
 
-    useEffect(() => {
-        props.onUpdateFavorite(productList.filter(item => item.likes.includes(myId)).length)
-    }, [productList])
-
-    const onProductListLoaded = (productList) => {
-        setProductList(productList);
-    }
+		switch(filter) {
+			case 'all':
+				return arrForSort.sort((a, b) => moment(a.created_at) - moment(b.created_at))
+			case 'new':
+				return arrForSort.sort((a, b) => moment(b.created_at) - moment(a.created_at))
+			case 'cheapFirst':
+				return arrForSort.sort((a, b) => a.price - b.price);
+			case 'expensiveFirst':
+				return arrForSort.sort((a, b) => b.price - a.price);
+			case 'raiting':
+				return arrForSort.sort((a, b) => raitingCounter(b) - raitingCounter(a));
+			case 'discount':
+				return arrForSort.sort((a, b) => b.discount - a.discount);
+			default:
+				return arrForSort;
+		}
+	}
 
     function renderProductItems(arr) {
         let array = arr;
-        if (props.term.length !== 0) {
-            array = array.filter(item => item.name.toLowerCase().indexOf(props.term.toLowerCase()) > -1)
+        if (term.length !== 0) {
+            array = array.filter(item => item.name.toLowerCase().indexOf(term.toLowerCase()) > -1)
         }
-        props.filterProducts(array, props.filter)
         const items = array.map((item) => <Product
                                             key={item._id}
                                             id={item._id} 
@@ -62,14 +69,24 @@ const FoodItemList = (props) => {
         return items;
     }
 
-    const items = renderProductItems(productList)
+    const items = renderProductItems(filterProducts(products, activeFilter))
+
+    const foundResult = (number) => {
+        if (number === 1) {
+            return 'позиция'
+        } else if (number === 2 || number === 3 || number === 4) {
+            return 'позиции'
+        } else {
+            return 'позиций'
+        }
+    }
     
     return (
         <div className="container">
-            {props.token? console.log(123): props.toSign()}
-            <div>{props.term.length > 0 && items.length !== 0 ?`по вашему запросу: "${props.term}" найдено ${items.length} позиции`: null}</div>
-            <div className="products__wrapper">{props.term.length > 0 && items.length === 0? 'извините, по Вашему запросу ничего не найдено =(': items}</div>
-            <div>{!props.term.length && items.length === 0? <Spinner />: null}</div>
+            {!token? <Navigate to='/sign' />: null}
+            <div>{term.length > 0 && items.length !== 0 ?`по вашему запросу: "${term}" найдено ${items.length} ${foundResult(items.length)}`: null}</div>
+            <div className="products__wrapper">{term.length > 0 && items.length === 0? 'извините, по Вашему запросу ничего не найдено =(': items}</div>
+            <div>{isLoading? <Spinner />: null}</div>
         </div>
     )
 }

@@ -1,17 +1,22 @@
 import { useState } from "react";
+import {useDispatch, useSelector} from 'react-redux'
 import { Navigate, useNavigate } from "react-router-dom";
-import ApiService from "../../services/ApiService";
+import { useSignUpMutation, useSignInMutation } from '../../api/apiSlice'
+import { changeToken, changeMyInfo } from "./signSlice";
 import './signUp.scss'
 
-const SignUp = (props) => {
+const SignUp = () => {
+
+    const dispatch = useDispatch();
+    const {token, myInfo} = useSelector(state => state.regInfo)
 
     const [email, setEmail] = useState("");
     const [group, setGroup] = useState("");
     const [password, setPassword] = useState("");
-    const [token, setToken] = useState(localStorage.getItem('token'));
     const navigate = useNavigate();
 
-    const apiService = new ApiService();
+    const [signUp] = useSignUpMutation()
+    const [signIn] = useSignInMutation()
 
     const regForm = 
         <>
@@ -50,12 +55,10 @@ const SignUp = (props) => {
                     className="registerbtn"
                     onClick={(e)=> {
                         e.preventDefault();
-                        apiService.signUp({email: email, group: group, password: password})
-                            .then(() => {
-                                document.querySelector('.signUpForm').reset();
-                                document.querySelector('.form__wrapper').style.display = 'none'
-                                document.querySelector('.authorization__wrapper').style.display = 'block'
-                            })
+                        signUp({email: email, group: group, password: password}).unwrap()
+                        document.querySelector('.signUpForm').reset();
+                        document.querySelector('.form__wrapper').style.display = 'none'
+                        document.querySelector('.authorization__wrapper').style.display = 'block'
                     }}
                     >регистрация</button>
                 
@@ -97,10 +100,16 @@ const SignUp = (props) => {
                     className="registerbtn"
                     onClick={(e) => {
                         e.preventDefault();
-                        apiService.signIn({email: email, password: password})
-                            .then(res => {props.onUpdateToken(res.token); 
-                                          props.onUpdateMyName(res.data.name);
-                                          navigate(`/catalog`)});
+                        signIn({email: email, password: password}).unwrap()
+                            .then((res) => {
+                                dispatch(changeToken(res.token))
+                                dispatch(changeMyInfo(res.data))
+                                localStorage.setItem('token', res.token)
+                                localStorage.setItem('id', res.data._id)
+                                localStorage.setItem('myInfo', JSON.stringify(res.data))
+                            })
+                            .catch(() => alert('Вы ввели неправильную почту или пароль'))
+                            .finally(() => document.querySelector('.signUpForm').reset())
                     }}
                     >авторизация</button>
 

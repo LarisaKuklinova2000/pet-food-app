@@ -1,18 +1,12 @@
-import { useParams, Link, Navigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import ApiService from '../../services/ApiService';
+import { Link, Navigate } from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux'
+import { changeToken, changeMyInfo } from "../signUp/signSlice";
 import './aboutMe.scss';
 
-const AboutMe = (props) => {
+const AboutMe = () => {
 
-    const [myInfo, setMyInfo] = useState({});
-
-    useEffect(() => {
-        const apiService = new ApiService();
-        apiService.getMyInfo(props.token)
-            .then(res => setMyInfo(res))
-
-    }, [])
+    const {token, myInfo} = useSelector(state => state.regInfo)
+    const dispatch = useDispatch();
 
     const {avatar, email, name, group, about} = myInfo;
 
@@ -27,13 +21,21 @@ const AboutMe = (props) => {
             </div>
             <div>
                 <Link to='/catalog' className="single-product__back">обратно в каталог</Link>
-                <Link to='/' className="single-product__back" onClick={() => {localStorage.clear(); window.location.reload()}}>выйти из профиля</Link>
+                <Link 
+                    to='/' 
+                    className="single-product__back" 
+                    onClick={() => {
+                        localStorage.clear()
+                        dispatch(changeToken(''))
+			            dispatch(changeMyInfo(''))
+                        window.location.reload()
+                    }}>выйти из профиля</Link>
             </div>
         </div>
 
     return (
         <>
-            {props.token? aboutMeInfo: <Navigate to='/sign' />}
+            {token? aboutMeInfo: <Navigate to='/sign' />}
         </>
     )
 }

@@ -1,7 +1,9 @@
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom'
+import {useDispatch, useSelector} from 'react-redux'
 import './appHeader.scss';
 
 const AppHeader = (props) => {
+    const {token, myInfo} = useSelector(state => state.regInfo)
 
     return (
         <header className='app__header'>
@@ -12,7 +14,7 @@ const AppHeader = (props) => {
                 <ul>
                     <li><NavLink end to='/catalog' >{`избранное ${props.favorite}`}</NavLink></li>
                     <li><NavLink end to='/catalog' >корзина</NavLink></li>
-                    <li>{!props.token? <NavLink end to='/sign' >регистрация</NavLink>: <NavLink end to='/me' >{localStorage.getItem('myName')}</NavLink>}</li>
+                    <li>{!token? <NavLink end to='/sign' >{'регистрация'}</NavLink>: <NavLink end to='/me' >{myInfo.name}</NavLink>}</li>
                 </ul>
             </nav>
         </header>
