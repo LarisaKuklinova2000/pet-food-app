@@ -1,6 +1,6 @@
 import { useState } from "react";
 import {useDispatch, useSelector} from 'react-redux'
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useSignUpMutation, useSignInMutation } from '../../api/apiSlice'
 import { changeToken, changeMyInfo } from "./signSlice";
 import './signUp.scss'
@@ -8,12 +8,11 @@ import './signUp.scss'
 const SignUp = () => {
 
     const dispatch = useDispatch();
-    const {token, myInfo} = useSelector(state => state.regInfo)
+    const {token} = useSelector(state => state.regInfo)
 
     const [email, setEmail] = useState("");
     const [group, setGroup] = useState("");
     const [password, setPassword] = useState("");
-    const navigate = useNavigate();
 
     const [signUp] = useSignUpMutation()
     const [signIn] = useSignInMutation()
@@ -56,9 +55,12 @@ const SignUp = () => {
                     onClick={(e)=> {
                         e.preventDefault();
                         signUp({email: email, group: group, password: password}).unwrap()
-                        document.querySelector('.signUpForm').reset();
-                        document.querySelector('.form__wrapper').style.display = 'none'
-                        document.querySelector('.authorization__wrapper').style.display = 'block'
+                            .then(() => {
+                                document.querySelector('.form__wrapper').style.display = 'none'
+                                document.querySelector('.authorization__wrapper').style.display = 'block'
+                            })
+                            .catch(() => alert('регистрация не удаласьб попробуйте ещё раз'))
+                            .finally(() => document.querySelector('.signUpForm').reset())
                     }}
                     >регистрация</button>
                 
@@ -66,9 +68,11 @@ const SignUp = () => {
                     <p>Уже есть аккаунт? 
                         <button
                             type="button"
-                            onClick={() => {document.querySelector('.form__wrapper').style.display = 'none';
-                                            document.querySelector('.authorization__wrapper').style.display = 'block' 
-                        }}> войдите</button>
+                            onClick={() => {
+                                document.querySelector('.form__wrapper').style.display = 'none';
+                                document.querySelector('.authorization__wrapper').style.display = 'block' 
+                            }
+                        }> войдите</button>
                     </p>
                 </div>
 

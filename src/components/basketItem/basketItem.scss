@@ -1,0 +1,31 @@
+.basket__item {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 150px;
+    width: 100%;
+    &-img {
+        height: 100%;
+    }
+    &-name {
+        width: 10%;
+    }
+    &-descr {
+        width: 40%;
+    }
+    &-icons {
+        width: 8%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        i {
+            font-size: 25px;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+
+
+}

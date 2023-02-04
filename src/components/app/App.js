@@ -3,12 +3,13 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-d
 import {useDispatch, useSelector} from 'react-redux'
 import { changeToken, changeMyInfo } from "../signUp/signSlice";
 
-import AppHeader from '../appHeader/AppHeader';
-import FoodItemList from '../foodItemList/FoodItemList';
-import FilterPanel from "../filterPanel/FilterPanel";
-import SignUp from "../signUp/SignUp";
-import SingleProductPage from '../singleProductPage/SingleProductPage';
-import AboutMe from "../aboutMe/AboutMe";
+import AppHeader from '../appHeader/AppHeader'
+import FoodItemList from '../foodItemList/FoodItemList'
+import FilterPanel from "../filterPanel/FilterPanel"
+import SignUp from "../signUp/SignUp"
+import SingleProductPage from '../singleProductPage/SingleProductPage'
+import AboutMe from "../aboutMe/AboutMe"
+import Basket from '../basket/Basket'
 
 const App = () => {
 
@@ -52,8 +53,9 @@ const App = () => {
 															favorite={favorite} />
 													</>
 												} />
-						<Route path='/catalog/:productId' element={<SingleProductPage/>}/>
+						<Route path='/catalog/:productId' element={<SingleProductPage/>} />
 						<Route path='/me' element={<AboutMe/>} />
+						<Route path='/basket' element={<Basket/>} />
 					</Routes>
 				</main>
 			</div>
