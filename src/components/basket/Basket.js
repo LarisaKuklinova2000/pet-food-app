@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import { Link, Navigate } from "react-router-dom"
 import {useSelector} from 'react-redux'
 import BasketItem from "../basketItem/BasketItem"
@@ -11,7 +10,7 @@ const Basket = () => {
 
     const basketItemsList = basketItems.map(item => {
 
-        const {id, name, discount, price, stock, pictures, description, amount} = item
+        const {id, name, discount, price, stock, pictures, description, amount, checked} = item
 
         return <BasketItem 
             key={id}
@@ -23,6 +22,7 @@ const Basket = () => {
             pictures={pictures}
             description={description}
             amount={amount}
+            checked={checked}
             />
     })
 
@@ -38,7 +38,9 @@ const Basket = () => {
             </div>
             {
                 basketItems.length?
-                <div className='total'>общая цена заказа {basketItems.reduce((a, b) => a + (b.amount * b.price), 0)}</div>:
+                <div className='total'>
+                    общая цена заказа {basketItems.filter(item => item.checked).reduce((a, b) => a + (b.amount * b.price), 0)}{' '}р.,{' '}
+                    всего {basketItems.filter(item => item.checked).reduce((a, b) => a + b.amount, 0)}{' '}шт.</div>:
                 null
             }
         </div>

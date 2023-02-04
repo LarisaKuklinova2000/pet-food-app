@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { addProductToBasket, deleteProductFromBasket} from "../basket/basketSlice"
+import { addProductToFavorite, deleteProductFromFavorite } from '../favorite/favoriteSlice'
 import ApiService from "../../services/ApiService";
 import './product.scss';
 
@@ -9,6 +10,7 @@ const Product = (props) => {
 
     const dispatch = useDispatch()
     const {basketItems} = useSelector(state => state.basket)
+    const {favoriteItems} = useSelector(state => state.favorite)
 
     const [likesArr, setLikesArr] = useState(props.likes)
     const [likes, setLikes] = useState(props.likes.length)
@@ -25,14 +27,12 @@ const Product = (props) => {
                     setLikes(res.likes.length);
                     setHeartClass("fa-regular fa-heart")
                     setLikesArr(likesArr.filter(item => item !== props.userId))
-                    props.onUpdateFavorite(props.favorite - 1)
                 }):
             apiService.like(props.id, localStorage.getItem('token'))
                 .then(res => {
                     setLikes(res.likes.length); 
                     setHeartClass("fa-solid fa-heart")
                     setLikesArr(likesArr.concat([props.userId]))
-                    props.onUpdateFavorite(props.favorite + 1)
                 })
     }
  
@@ -60,6 +60,17 @@ const Product = (props) => {
                     <img src={props.pictures} alt="картинка товара"/>
                     <h3 className="cardTitle"><Link to={`/catalog/${props.id}`}>{props.name}</Link></h3>
                     <p>{props.description.length > 250? props.description.slice(0, 150) + '...': props.description}</p>
+                    {
+                        favoriteItems.includes(id)?
+                        <button 
+                            className="favorite"
+                            onClick={() => {dispatch(deleteProductFromFavorite(id))}}
+                        >убрать из избранного</button>:
+                        <button 
+                            className="favorite"
+                            onClick={() => {dispatch(addProductToFavorite(id))}}
+                        >в избранное</button>
+                    }
                     {basketItems.filter(item => item.id === id).length?
                         <button
                             onClick={() => {
@@ -68,7 +79,7 @@ const Product = (props) => {
                         >удалить из корзины</button>:
                         <button
                             onClick={() => {
-                                dispatch(addProductToBasket({id, name, discount, price, stock, pictures, description, amount: 1}))
+                                dispatch(addProductToBasket({id, name, discount, price, stock, pictures, description, amount: 1, checked: false}))
                             }}
                         >в корзину</button>
                     }

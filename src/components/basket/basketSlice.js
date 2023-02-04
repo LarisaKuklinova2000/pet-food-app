@@ -19,6 +19,9 @@ const basketSlice = createSlice({
         },
         decAmount: (state, action) => {
             state.basketItems.map(item => item.id === action.payload && item.amount > 1? item.amount--: null)
+        },
+        changeChecked: (state, action) => {
+            state.basketItems.map(item => item.id === action.payload? item.checked = !item.checked: null)
         }
     }
 })
@@ -26,4 +29,4 @@ const basketSlice = createSlice({
 const {actions, reducer} = basketSlice
 
 export default reducer
-export const {addProductToBasket, deleteProductFromBasket, incAmount, decAmount} = actions
+export const {addProductToBasket, deleteProductFromBasket, incAmount, decAmount, changeChecked} = actions

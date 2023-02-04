@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Navigate } from "react-router-dom"
 import {useSelector} from 'react-redux'
 import moment from "moment/moment";
@@ -9,11 +9,6 @@ import './FoodItemList.scss'
 import Spinner from "../spinner/Spinner"
 
 const FoodItemList = (props) => {
-
-    const {basketItems} = useSelector(state => state.basket)
-    useEffect(() => {
-        localStorage.setItem('basket', JSON.stringify(basketItems))
-    }, [basketItems])
 
     const {token} = useSelector(state => state.regInfo)
     const {activeFilter, term} = useSelector(state => state.filters)
@@ -66,11 +61,9 @@ const FoodItemList = (props) => {
                                             name={item.name}
                                             description={item.description}
                                             stock={item.stock}
-                                            token={props.token}
+                                            token={token}
                                             userId={myId}
-                                            likes={item.likes}
-                                            onUpdateFavorite={props.onUpdateFavorite}
-                                            favorite={props.favorite}/>)
+                                            likes={item.likes}/>)
         return items;
     }
 

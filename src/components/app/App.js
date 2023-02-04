@@ -10,6 +10,7 @@ import SignUp from "../signUp/SignUp"
 import SingleProductPage from '../singleProductPage/SingleProductPage'
 import AboutMe from "../aboutMe/AboutMe"
 import Basket from '../basket/Basket'
+import Favorite from "../favorite/Favorite";
 
 const App = () => {
 
@@ -56,6 +57,7 @@ const App = () => {
 						<Route path='/catalog/:productId' element={<SingleProductPage/>} />
 						<Route path='/me' element={<AboutMe/>} />
 						<Route path='/basket' element={<Basket/>} />
+						<Route path='/favorite' element={<Favorite/>} />
 					</Routes>
 				</main>
 			</div>

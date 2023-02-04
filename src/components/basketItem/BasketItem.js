@@ -1,15 +1,20 @@
 import { useDispatch } from "react-redux"
-import { incAmount, decAmount } from "../basket/basketSlice"
+import { incAmount, decAmount, changeChecked } from "../basket/basketSlice"
 import './basketItem.scss'
 
 const BasketItem = (props) => {
 
     const dispatch = useDispatch()
 
-    const {id, name, price, stock, pictures, description, amount} = props
+    const {id, name, price, stock, pictures, description, amount, checked} = props
 
     return (
         <div className='basket__item'>
+            <input 
+                type='checkbox' 
+                defaultChecked={checked}
+                onClick={() => dispatch(changeChecked(id))}
+            />
             <img className='basket__item-img' src={pictures} alt="" />
             <div className='basket__item-name'>{name}</div>
             <div className='basket__item-descr'>{description}</div>

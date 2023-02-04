@@ -13,7 +13,7 @@ const AppHeader = (props) => {
             </h1>
             <nav className='app__menu'>
                 <ul>
-                    <li><NavLink end to='/catalog' >{`избранное`}</NavLink></li>
+                    <li><NavLink end to='/favorite' >{`избранное`}</NavLink></li>
                     <li>
                         {basketItems.length?
                         <NavLink end to='/basket' >{`в корзине ${basketItems.length} товаров`}</NavLink>: 
