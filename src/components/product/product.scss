@@ -66,20 +66,21 @@
             button {
                 position: absolute;
                 display: inline-block;
-                padding: 8px 20px;
-                background: black;
+                background: green;
                 border-radius: 5px;
                 text-decoration: none;
                 color: white;
                 margin-top: 20px;
                 box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-                transition: 0.5s;
+                transition: all 0.3s ease;
+                border: none;
                 bottom: 20px;
                 left: 20px;
+                height: 30px;
+                padding: 0 10px;
                 &:hover {
                     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
                     background: #fff;
-                    color: #000; 
                 }
             }
             .favorite {
@@ -99,24 +100,38 @@
                 &:hover {
                     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
                     background: #fff;
-                    color: #000; 
+                    color: #000;
                 }
             }
             i {
                 position: absolute;
-                right: 20px;
+                right: 35px;
                 bottom: 25px;
                 font-size: 20px;
                 color: rgb(15, 22, 114);
                 transition: 0.5s;
                 cursor: pointer;
+                transition: all 1s ease;
+                &:hover {
+                    scale: 1.5;
+                }
+            }
+            .fa-star {
+                position: absolute;
+                right: 70px;
+                bottom: 25px;
+                font-size: 20px;
+                color: gold;
+                transition: 0.5s;
+                cursor: pointer;
+                transition: all 0.5s ease;
             }
             .likesCount {
                 position: absolute;
-                font-size: 12px;
-                bottom: 60px;
+                font-size: 15px;
+                bottom: 25px;
                 right: 10px;
-                color: blue;
+                color: rgb(15, 22, 114);
             }
         }
     }

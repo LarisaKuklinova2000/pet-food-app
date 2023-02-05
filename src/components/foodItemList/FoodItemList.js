@@ -80,10 +80,10 @@ const FoodItemList = (props) => {
     }
     
     return (
-        <div className="container">
+        <div className="container__products">
             {!token? <Navigate to='/sign' />: null}
             <div>{term.length > 0 && items.length !== 0 ?`по вашему запросу: "${term}" найдено ${items.length} ${foundResult(items.length)}`: null}</div>
-            <div className="products__wrapper">{term.length > 0 && items.length === 0? 'извините, по Вашему запросу ничего не найдено =(': items}</div>
+            <div className="products__wrapper">{term.length > 0 && items.length === 0? 'по Вашему запросу ничего не найдено =(': items}</div>
             <div>{isLoading? <Spinner />: null}</div>
         </div>
     )

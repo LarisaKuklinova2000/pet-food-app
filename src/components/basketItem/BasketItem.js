@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux"
 import { incAmount, decAmount, changeChecked } from "../basket/basketSlice"
+import {deleteProductFromBasket} from "../basket/basketSlice"
 import './basketItem.scss'
 
 const BasketItem = (props) => {
@@ -17,7 +18,11 @@ const BasketItem = (props) => {
             />
             <img className='basket__item-img' src={pictures} alt="" />
             <div className='basket__item-name'>{name}</div>
-            <div className='basket__item-descr'>{description}</div>
+            <button
+                onClick={() => {
+                    dispatch(deleteProductFromBasket({id}))
+                }}
+            >удалить из корзины</button>
             <div className='basket__item-icons'>
                 <i className="fa-solid fa-minus"
                     onClick={() => dispatch(decAmount(id))}

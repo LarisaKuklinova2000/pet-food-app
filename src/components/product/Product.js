@@ -58,36 +58,47 @@ const Product = (props) => {
                     </div>
                     <div className="inStock">в наличии: <br /> {props.stock} шт</div>
                     <img src={props.pictures} alt="картинка товара"/>
-                    <h3 className="cardTitle"><Link to={`/catalog/${props.id}`}>{props.name}</Link></h3>
+                    <h3 className="cardTitle" style={props.name.length > 20?{fontSize: '18px'}: {fontSize: '25px'}}>
+                        <Link to={`/catalog/${props.id}`}>
+                            {
+                                props.name
+                            }
+                        </Link>
+                    </h3>
                     <p>{props.description.length > 250? props.description.slice(0, 150) + '...': props.description}</p>
+                    <button
+                        style={
+                            basketItems.filter(item => item.id === id).length?
+                            {'backgroundColor': 'red'}:
+                            {'backgroundColor': 'green'}
+                        }
+                        onClick={() => {
+                            basketItems.filter(item => item.id === id).length?
+                            dispatch(deleteProductFromBasket({id})):
+                            dispatch(addProductToBasket({id, name, discount, price, stock, pictures, description, amount: 1, checked: false}))
+                        }}>
+                        {
+                        basketItems.filter(item => item.id === id).length?
+                        'убрать из корзины':
+                        'в корзину'
+                        }
+                    </button>
                     {
-                        favoriteItems.includes(id)?
-                        <button 
-                            className="favorite"
+                        favoriteItems.includes(id)? 
+                        <i 
+                            className="fa-solid fa-star"
                             onClick={() => {dispatch(deleteProductFromFavorite(id))}}
-                        >убрать из избранного</button>:
-                        <button 
-                            className="favorite"
+                        ></i>:
+                        <i 
+                            className="fa-regular fa-star"
                             onClick={() => {dispatch(addProductToFavorite(id))}}
-                        >в избранное</button>
-                    }
-                    {basketItems.filter(item => item.id === id).length?
-                        <button
-                            onClick={() => {
-                                dispatch(deleteProductFromBasket({id}))
-                            }}
-                        >удалить из корзины</button>:
-                        <button
-                            onClick={() => {
-                                dispatch(addProductToBasket({id, name, discount, price, stock, pictures, description, amount: 1, checked: false}))
-                            }}
-                        >в корзину</button>
+                        ></i>
                     }
                     <i 
                         className={heartClass}
                         onClick={() => likeOrDislike()}>
                     </i>
-                    <div className="likesCount">товар понравился <br /> {likes} пользователям</div>
+                    <div className="likesCount">{likes}</div>
                 </div>
             </div>
         </div>

@@ -2,15 +2,19 @@
 
 .signUpForm {
 	width: 100%;
-	padding-top: 50px;
+	padding-top: 110px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	label {
+		display: block;
+		margin-top: 20px;
+	}
 	.signInput {
 		width: 100%;
 		padding: 15px;
-		margin: 5px 0 22px 0;
+		margin: 5px 0 5px 0;
 		display: inline-block;
 		border: none;
 		background: #f1f1f1;
@@ -56,6 +60,11 @@
 		width: 50%;
 	}
 	.authorization__wrapper {
-		display: none;
+		display: block;
+		width: 50%;
+	}
+
+	.error {
+		color: red
 	}
 }

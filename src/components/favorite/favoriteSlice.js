@@ -13,6 +13,9 @@ const favoriteSlice = createSlice({
         },
         deleteProductFromFavorite: (state, action) => {
             state.favoriteItems = state.favoriteItems.filter(item => item !== action.payload)
+        },
+        clearFavorite: (state) => {
+            state.favoriteItems = []
         }
     }
 })
@@ -20,4 +23,4 @@ const favoriteSlice = createSlice({
 const {actions, reducer} = favoriteSlice
 
 export default reducer
-export const {addProductToFavorite, deleteProductFromFavorite} = actions
+export const {addProductToFavorite, deleteProductFromFavorite, clearFavorite} = actions

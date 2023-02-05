@@ -7,6 +7,7 @@ import AppHeader from '../appHeader/AppHeader'
 import FoodItemList from '../foodItemList/FoodItemList'
 import FilterPanel from "../filterPanel/FilterPanel"
 import SignUp from "../signUp/SignUp"
+import SignIn from "../signUp/SignIn";
 import SingleProductPage from '../singleProductPage/SingleProductPage'
 import AboutMe from "../aboutMe/AboutMe"
 import Basket from '../basket/Basket'
@@ -16,7 +17,6 @@ const App = () => {
 
 
 	const [myName, setMyName] = useState(localStorage.getItem('myName'));
-	const [favorite, setFavorite] = useState(0)
 
 	const dispatch = useDispatch()
 	const {token, myInfo} = useSelector(state => state.regInfo)
@@ -27,9 +27,6 @@ const App = () => {
 		}
 	}, [])
 
-	const onUpdateFavorite = (favorite) => {
-		setFavorite(favorite)
-	}
 	const onUpdateMyName = (myName) => {
 		localStorage.setItem('myName', myName)
 		setMyName(myName)
@@ -39,19 +36,16 @@ const App = () => {
 		<Router>
 			<div className="app">
 			<AppHeader 
-				favorite={favorite}
 				myName={myName}/>
 				<main>
 					<Routes>
 						<Route path='/' element={token? <Navigate to='/catalog' />: <Navigate to='/sign' />}/>
 						<Route path='/sign' element={<SignUp onUpdateMyName={onUpdateMyName}/>} />
+						<Route path='/signin' element={<SignIn />} />
 						<Route path='/catalog' element={
 													<>
-														<FilterPanel 
-															favorite={favorite}/>
-														<FoodItemList
-															onUpdateFavorite={onUpdateFavorite}
-															favorite={favorite} />
+														<FilterPanel />
+														<FoodItemList />
 													</>
 												} />
 						<Route path='/catalog/:productId' element={<SingleProductPage/>} />

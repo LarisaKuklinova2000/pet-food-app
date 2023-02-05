@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800&display=swap");
 
 .products__wrapper {
-    margin-top: 50px;
     display: grid;
     justify-content: space-evenly;
     grid-template-columns: repeat(3, 360px);
@@ -10,5 +9,9 @@
 }
 
 .container {
-    margin-top: 50px;
+    padding-top: 100px;
+}
+
+.container__products {
+    padding-top: 10px;
 }

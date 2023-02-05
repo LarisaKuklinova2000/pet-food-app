@@ -1,9 +1,23 @@
 @import '../../style/variables.scss';
 
+.header__wrapper {
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    height: 100px;
+    position: fixed;
+}
+
 .app {
     &__header {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
+        align-items: center;
+        background-color: white;
+        width: 100%;
+        height: 100%;
     }
     &__title {
         font-weight: bold;
@@ -17,16 +31,51 @@
         ul {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             font-weight: bold;
             font-size: 24px;
             line-height: 32px;
             li {
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 margin: 0 8px;
+                position: relative;
+                height: 50px;
+                width: 50px;
+                &:nth-child(1) {
+                    i {
+                        color: gold;
+                    }
+                }
+                &:nth-child(2) {
+                    color: green;
+                }
+                &:nth-child(3) {
+                    width: 200px;
+                }
                 a:hover {
                     color: $main-color;
                 }
+                .count-circle {
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 100%;
+                    background-color: red;
+                    top: 0;
+                    right: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    .count {
+                        font-size: 15px;
+                        color: white;
+                    }
+                }
             }
         }
+        
     }
     .search-input {
         width: 300px;

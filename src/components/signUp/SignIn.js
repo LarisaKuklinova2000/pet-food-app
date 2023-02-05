@@ -1,42 +1,48 @@
-import {useSelector} from 'react-redux'
-import { Navigate, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux'
+import { Navigate, useNavigate } from "react-router-dom"
 import { Formik, Field, Form, ErrorMessage } from 'formik'
+import { changeToken, changeMyInfo } from "./signSlice"
 import * as Yup from 'yup'
 
-import { useSignUpMutation} from '../../api/apiSlice'
+import { useSignInMutation } from '../../api/apiSlice'
 import './signUp.scss'
 
-const SignUp = () => {
+const SignIn = () => {
 
     const {token} = useSelector(state => state.regInfo)
+    const dispatch = useDispatch()
 
     const navigate = useNavigate();
 
-    const [signUp] = useSignUpMutation()
+    const [signIn] = useSignInMutation()
 
-    const regForm = 
-        <div className="form__wrapper">
-            <h1>Регистрация</h1>
-            <p>пожалуйста, заполните форму создания аккаунта</p>
+    const signInForm = 
+        <div className="authorization__wrapper">
+            <h1>Авторизация</h1>
+            <p>пожалуйста, заполните форму авторизации</p>
+
             <Formik
                 initialValues={{
                     email: '',
-                    group: '',
                     password: '',
                 }}
                 validationSchema = {Yup.object({
                     email: Yup.string()
                             .email('неверно введена почта')
                             .required('поле обязательно для заполнения'),
-                    group: Yup.string().max(4, 'не более 4 символов').required('укажите группу'),
-                    password: Yup.string().min(3, 'не менее 3-х символов').required('придумайте пароль'),
+                    password: Yup.string().min(3, 'не менее 3-х символов').required('введите пароль'),
                 })}
                 onSubmit={(values) => {
-                    signUp(values).unwrap()
+                    signIn(values).unwrap()
                         .then((res) => {
-                            navigate('/signIn')
+                            dispatch(changeToken(res.token))
+                            dispatch(changeMyInfo(res.data))
+                            localStorage.setItem('token', res.token)
+                            localStorage.setItem('id', res.data._id)
+                            localStorage.setItem('myInfo', JSON.stringify(res.data))
+                            navigate('/catalog')
                         })
-                        .catch(() => alert('регистрация не удалась попробуйте ещё раз'))
+                        .catch(() => alert('вы введи неправльую почту или пароль'))
                 }}
             >
                 <Form>
@@ -49,15 +55,6 @@ const SignUp = () => {
                     />
                     <ErrorMessage className="error" name='email' component='div'/>
 
-                    <label htmlFor="group"><b>Ваша группа</b></label>
-                    <Field 
-                        className="signInput"
-                        placeholder="введите Вашу группу"
-                        name="group"
-                        id='group'
-                    />
-                    <ErrorMessage className="error" name='group' component='div'/>
-
                     <label htmlFor="password"><b>Пароль</b></label>
                     <Field 
                         className="signInput"
@@ -67,27 +64,26 @@ const SignUp = () => {
                     />
                     <ErrorMessage className="error" name='password' component='div'/>
 
-                    <button className="registerbtn" type="submit">регистрация</button>
+                    <button className="registerbtn" type="submit">Авторизация</button>
                 </Form>
             </Formik>
         </div>
-
     
     return (
         <div className="signUpForm" action="">
-            {token? <Navigate to='/catalog' />: regForm}
+            {token? <Navigate to='/catalog' />: signInForm}
             <div className="signin">
-                <p>Уже есть аккаунт? 
+                <p>нет аккаунта? 
                     <button
                         type="button"
                         onClick={() => {
-                            navigate('/signin')
+                            navigate('/sign')
                         }
-                    }> к форме авторизации</button>
+                    }> к регистрации</button>
                 </p>
             </div>
         </div>
     )
 }
 
-export default SignUp;
+export default SignIn

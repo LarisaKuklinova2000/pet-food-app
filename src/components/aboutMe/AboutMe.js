@@ -1,6 +1,8 @@
 import { Link, Navigate } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux'
-import { changeToken, changeMyInfo } from "../signUp/signSlice";
+import { changeToken, changeMyInfo } from "../signUp/signSlice"
+import { clearBasket } from "../basket/basketSlice"
+import { clearFavorite } from '../favorite/favoriteSlice'
 import './aboutMe.scss';
 
 const AboutMe = () => {
@@ -8,35 +10,37 @@ const AboutMe = () => {
     const {token, myInfo} = useSelector(state => state.regInfo)
     const dispatch = useDispatch();
 
-    const {avatar, email, name, group, about} = myInfo;
 
     const aboutMeInfo = 
-        <div className="single-product">
-            <img src={avatar} alt='food img' className="single-product__img"/>
-            <div className="single-product__info">
-                <h2 className="single-product__name">{name}</h2>
-                <p className="single-product__descr">{about}</p>
-                <p className="single-product__descr">{group}</p>
-                <p className="single-product__descr">{email}</p>
+        <div className="about-me">
+            <img src={myInfo.avatar} alt='food img' className="about-me__img"/>
+            <div className="about-me__info">
+                <h2 className="about-me__name">{myInfo.name}</h2>
+                <p className="about-me__descr">{myInfo.about}</p>
+                <p className="about-me__descr">{myInfo.group}</p>
+                <p className="about-me__descr">{myInfo.email}</p>
             </div>
-            <div>
-                <Link to='/catalog' className="single-product__back">обратно в каталог</Link>
+            <div className='links'>
+                <Link to='/catalog' className="about-me__back"><i class="fa-solid fa-arrow-left"></i>{' '}в каталог</Link>
+                <br />
+                <br />
                 <Link 
                     to='/' 
-                    className="single-product__back" 
+                    className="about-me__back" 
                     onClick={() => {
                         localStorage.clear()
                         dispatch(changeToken(''))
 			            dispatch(changeMyInfo(''))
-                        window.location.reload()
+                        dispatch(clearBasket())
+                        dispatch(clearFavorite())
                     }}>выйти из профиля</Link>
             </div>
         </div>
 
     return (
-        <>
-            {token? aboutMeInfo: <Navigate to='/sign' />}
-        </>
+        <div className='container'>
+            {token && myInfo? aboutMeInfo: <Navigate to='/sign' />}
+        </div>
     )
 }
 

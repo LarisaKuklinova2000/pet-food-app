@@ -29,7 +29,7 @@ const persistConfig = {
     key: 'root',
     version: 1,
     storage,
-    whitelist: ['basket']
+    whitelist: ['basket', 'favorite']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
