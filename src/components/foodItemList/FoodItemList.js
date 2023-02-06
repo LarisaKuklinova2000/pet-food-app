@@ -57,6 +57,7 @@ const FoodItemList = () => {
                                             key={item._id}
                                             timeout={300}
                                             classNames="item"
+                                            unmountOnExit
                                             ><Product
                                                 key={item._id}
                                                 id={item._id} 
@@ -89,7 +90,13 @@ const FoodItemList = () => {
         <div className="container__products">
             {!token? <Navigate to='/sign' />: null}
             <div>{term.length > 0 && items.length !== 0 ?`по вашему запросу: "${term}" найдено ${items.length} ${foundResult(items.length)}`: null}</div>
-            <TransitionGroup className="products__wrapper">{term.length !== 0 && items.length === 0? 'по Вашему запросу ничего не найдено =(': items}</TransitionGroup>
+            <TransitionGroup className="products__wrapper">
+                {
+                    items.length === 0 && term.length !== 0 ?
+                    <CSSTransition unmountOnExit timeout={300}><div>по Вашему запросу ничего не найдено</div></CSSTransition>:
+                    items
+                }
+            </TransitionGroup>
             <div>{isLoading? <Spinner />: null}</div>
         </div>
     )

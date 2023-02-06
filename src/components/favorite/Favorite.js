@@ -47,11 +47,15 @@ const Favorite = () => {
     return (
         <div className="container">
             {!token? <Navigate to='/sign' />: null}
-            <TransitionGroup className="favorite-products__wrapper">{favoriteItems.length === 0?
-            <CSSTransition key={'123'} timeout={300} classNames="item"><div className="favorite-empty">список избранного пуст</div></CSSTransition>
-            :
-            items
-            }</TransitionGroup>
+            <TransitionGroup className="favorite-products__wrapper">
+                {
+                    favoriteItems.length === 0?
+                    <CSSTransition key={'123'} timeout={300} classNames="item" unmountOnExit>
+                        <div className="favorite-empty">список избранного пуст</div>
+                    </CSSTransition>:
+                    items
+                }
+            </TransitionGroup>
             <div>{isLoading? <Spinner />: null}</div>
         </div>
     )
