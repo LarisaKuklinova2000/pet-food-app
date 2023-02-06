@@ -3,12 +3,13 @@ import { Navigate } from "react-router-dom"
 import {useSelector} from 'react-redux'
 import moment from "moment/moment";
 import { useGetAllProductsQuery } from '../../api/apiSlice'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 import Product from "../product/Product"
 import './FoodItemList.scss'
 import Spinner from "../spinner/Spinner"
 
-const FoodItemList = (props) => {
+const FoodItemList = () => {
 
     const {token} = useSelector(state => state.regInfo)
     const {activeFilter, term} = useSelector(state => state.filters)
@@ -52,18 +53,23 @@ const FoodItemList = (props) => {
         if (term.length !== 0) {
             array = array.filter(item => item.name.toLowerCase().indexOf(term.toLowerCase()) > -1)
         }
-        const items = array.map((item) => <Product
+        const items = array.map((item) => <CSSTransition
                                             key={item._id}
-                                            id={item._id} 
-                                            discount={item.discount} 
-                                            price={item.price} 
-                                            pictures={item.pictures}
-                                            name={item.name}
-                                            description={item.description}
-                                            stock={item.stock}
-                                            token={token}
-                                            userId={myId}
-                                            likes={item.likes}/>)
+                                            timeout={300}
+                                            classNames="item"
+                                            ><Product
+                                                key={item._id}
+                                                id={item._id} 
+                                                discount={item.discount} 
+                                                price={item.price} 
+                                                pictures={item.pictures}
+                                                name={item.name}
+                                                description={item.description}
+                                                stock={item.stock}
+                                                token={token}
+                                                userId={myId}
+                                                likes={item.likes}/>
+                                        </CSSTransition>)
         return items;
     }
 
@@ -83,7 +89,7 @@ const FoodItemList = (props) => {
         <div className="container__products">
             {!token? <Navigate to='/sign' />: null}
             <div>{term.length > 0 && items.length !== 0 ?`по вашему запросу: "${term}" найдено ${items.length} ${foundResult(items.length)}`: null}</div>
-            <div className="products__wrapper">{term.length > 0 && items.length === 0? 'по Вашему запросу ничего не найдено =(': items}</div>
+            <TransitionGroup className="products__wrapper">{term.length !== 0 && items.length === 0? 'по Вашему запросу ничего не найдено =(': items}</TransitionGroup>
             <div>{isLoading? <Spinner />: null}</div>
         </div>
     )

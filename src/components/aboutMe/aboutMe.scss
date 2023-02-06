@@ -27,5 +27,27 @@
         font-size: 25px;
         width: 200px;
     }
+}
 
+@media (max-width: 1170px) {
+    .about-me {
+        grid-template-columns: 400px 300px;
+        grid-template-rows: auto;
+        column-gap: 20px;
+        .links {
+            justify-self: start;
+        }
+    }
+}
+
+@media (max-width: 770px) {
+    .about-me {
+        grid-template-columns: 300px;
+        grid-template-rows: auto;
+        column-gap: 20px;
+        .links {
+            margin-top: 30px;
+            justify-self: center;
+        }
+    }
 }

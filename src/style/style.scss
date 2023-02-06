@@ -47,9 +47,10 @@ input::-webkit-inner-spin-button {
 }
 
 .app {
-    width: 100vw;
     margin: 0 auto;
     position: relative;
+    background: url('../style/img/main-bg2.jpg') fixed;
+    min-height: 100vh;
     .bg-decoration {
         position: absolute;
         right: -174px;
@@ -78,5 +79,11 @@ main {
     }
     100% {
         opacity: 1
+    }
+}
+
+@media (max-width: 1170px) {
+    main {
+        width: 90%;
     }
 }

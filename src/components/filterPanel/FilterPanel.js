@@ -5,6 +5,7 @@ import './filterPanel.scss'
 const FilterPanel = () => {
 
     const {activeFilter} = useSelector(state => state.filters)
+    const {term} = useSelector(state => state.filters)
     const dispatch = useDispatch()
 
     const buttonsData = [
@@ -38,6 +39,7 @@ const FilterPanel = () => {
         <input type="text"
                 className="form-control search-input"
                 placeholder="Найти товар"
+                value={term}
                 onChange={(e) => dispatch(changeTerm(e.target.value))} />
         </>
     )

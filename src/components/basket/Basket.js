@@ -1,6 +1,7 @@
 import { Link, Navigate } from "react-router-dom"
 import {useSelector} from 'react-redux'
 import BasketItem from "../basketItem/BasketItem"
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 import './Basket.scss'
 
@@ -12,30 +13,37 @@ const Basket = () => {
 
         const {id, name, discount, price, stock, pictures, description, amount, checked} = item
 
-        return <BasketItem 
-            key={id}
-            id={id}
-            name={name}
-            discount={discount}
-            price={price}
-            stock={stock}
-            pictures={pictures}
-            description={description}
-            amount={amount}
-            checked={checked}
-            />
+        return (
+            <CSSTransition
+                key={id}
+                timeout={300}
+                classNames="item">
+                    <BasketItem 
+                        key={id}
+                        id={id}
+                        name={name}
+                        discount={discount}
+                        price={price}
+                        stock={stock}
+                        pictures={pictures}
+                        description={description}
+                        amount={amount}
+                        checked={checked}
+                        />
+                </CSSTransition>
+        )
     })
 
     return (
         <div className="container">
             {!localStorage.getItem('token')? <Navigate to='/sign' />: null}
-            <div className="basket__wrapper">
+            <TransitionGroup className="basket__wrapper">
                 {
                     !basketItems.length?
-                    <p>Ваша корзина пуста, вернуться <Link to='/catalog'>обратно в каталог?</Link></p>:
+                    <CSSTransition key={'321'} timeout={300} classNames="item"><p>Ваша корзина пуста, вернуться <Link to='/catalog'>обратно в каталог?</Link></p></CSSTransition>:
                     basketItemsList  
                 }
-            </div>
+            </TransitionGroup>
             {
                 basketItems.length?
                 <div className='total'>

@@ -49,16 +49,16 @@ const Product = (props) => {
                                     <span className="oldPrice">{props.price}</span>
                                     <br />
                                     <span className="newPrice">
-                                        {Math.floor((props.price/100)*(100-props.discount))}
+                                        - {props.discount}%!
                                         <br />
-                                        скидка {props.discount}%!
+                                        {Math.floor((props.price/100)*(100-props.discount))}
                                     </span>
                                 </div>:
                                 <span>{props.price}</span>}
                     </div>
                     <div className="inStock">в наличии: <br /> {props.stock} шт</div>
                     <img src={props.pictures} alt="картинка товара"/>
-                    <h3 className="cardTitle" style={props.name.length > 20?{fontSize: '18px'}: {fontSize: '25px'}}>
+                    <h3 className="cardTitle" style={props.name.length > 20?{fontSize: '16px'}: {fontSize: '25px'}}>
                         <Link to={`/catalog/${props.id}`}>
                             {
                                 props.name

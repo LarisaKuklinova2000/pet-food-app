@@ -15,3 +15,24 @@
 .container__products {
     padding-top: 10px;
 }
+
+@media (max-width: 1170px) {
+    .products__wrapper {
+        grid-template-columns: repeat(2, 360px);
+        justify-content: center;
+    }
+}
+
+@media (max-width: 750px) {
+    .products__wrapper {
+        grid-template-columns: repeat(1, 360px);
+        justify-content: center;
+    }
+}
+
+@media (max-width: 400px) {
+    .products__wrapper {
+        grid-template-columns: repeat(1, 320px);
+        justify-content: center;
+    }
+}

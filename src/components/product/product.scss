@@ -22,8 +22,10 @@
         overflow: hidden;
         transition: 0.5s;
         box-shadow: 10px 13px 15px 11px rgba(186, 186, 186, 0.2);
+        border: solid 1px black;
         &:hover {
-            box-shadow: 0px 0px 20px 16px rgba(69, 7, 241, 0.2);
+            box-shadow: 0px 0px 15px 10px rgba(211, 27, 42, 0.2);
+            scale: 1.05;
         }
         .content {
             padding: 60px 10px 0 10px;

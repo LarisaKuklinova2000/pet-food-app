@@ -21,7 +21,7 @@ const AboutMe = () => {
                 <p className="about-me__descr">{myInfo.email}</p>
             </div>
             <div className='links'>
-                <Link to='/catalog' className="about-me__back"><i class="fa-solid fa-arrow-left"></i>{' '}в каталог</Link>
+                <Link to='/catalog' className="about-me__back"><i className="fa-solid fa-arrow-left"></i>{' '}в каталог</Link>
                 <br />
                 <br />
                 <Link 
