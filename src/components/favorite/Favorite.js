@@ -51,7 +51,7 @@ const Favorite = () => {
                 {
                     favoriteItems.length === 0?
                     <CSSTransition key={'123'} timeout={300} classNames="item" unmountOnExit>
-                        <div className="favorite-empty">список избранного пуст</div>
+                        <div>список избранного пуст</div>
                     </CSSTransition>:
                     items
                 }

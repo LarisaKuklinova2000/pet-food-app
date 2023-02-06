@@ -93,7 +93,9 @@ const FoodItemList = () => {
             <TransitionGroup className="products__wrapper">
                 {
                     items.length === 0 && term.length !== 0 ?
-                    <CSSTransition unmountOnExit timeout={300}><div>по Вашему запросу ничего не найдено</div></CSSTransition>:
+                    <CSSTransition key={'12345'} unmountOnExit timeout={300}>
+                        <div>по Вашему запросу ничего не найдено</div>
+                    </CSSTransition>:
                     items
                 }
             </TransitionGroup>

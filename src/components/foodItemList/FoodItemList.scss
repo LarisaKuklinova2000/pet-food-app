@@ -6,6 +6,20 @@
     grid-template-columns: repeat(3, 360px);
     grid-auto-rows: 500px;
     gap: 20px;
+    .item-enter {
+        opacity: 0;
+    }
+    .item-enter-active {
+        opacity: 1;
+        transition: opacity 500ms ease-in;
+    }
+    .item-exit {
+        opacity: 1;
+    }
+    .item-exit-active {
+        opacity: 0;
+        transition: opacity 500ms ease-in;
+    }
 }
 
 .container {
