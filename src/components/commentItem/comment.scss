@@ -1,0 +1,43 @@
+.comment__item {
+    padding: 10px;
+    background-color: white;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    .comment-header {
+        display: flex;
+        justify-content: space-between;
+    }
+    &-author {
+        display: flex;
+        align-items: center;
+        width: 70%;
+        overflow: hidden;
+        img {
+            display: block;
+            height: 50px;
+            border-radius: 10px;
+        }
+        .author-info {
+            margin-left: 20px;
+            line-height: 12px;
+            font-size: 12px;
+        }
+    }
+    &-rating {
+        width: 100px;
+        i {
+            color: rgb(255, 96, 4);
+            margin-right: 5px;
+        }
+    }
+    &-text {
+        margin-top: 10px;
+        border: solid 1px grey;
+        border-radius: 10px;
+        padding: 10px;
+    }
+    .fa-trash-can {
+        cursor: pointer;
+        color: rgb(95, 95, 95);
+    }
+}

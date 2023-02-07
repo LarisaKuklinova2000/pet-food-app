@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({baseUrl: 'https://api.react-learning.ru'}),
-    tagTypes: ['Products', 'Likes'],
+    tagTypes: ['Products', 'Likes', 'Reviews', 'SingleProduct'],
     endpoints: builder => ({
         signUp: builder.mutation({
             query: userData => ({
@@ -39,16 +39,39 @@ export const apiSlice = createApi({
                     'authorization': `Bearer ${arr[1]}`
                 }
             }),
-            providesTags: ['Products']
+            providesTags: ['Products', 'SingleProduct']
         }),
-        getProductRewiews: builder.query({
-            query: (id, token) => ({
-                url: `products/review/${id}`,
+        getOtherUserInfo: builder.query({
+            query: (arr) => ({
+                url: `/v2/sm8/users/${arr[0]}`,
                 headers: {
                     'Content-type': 'application/json',
-                    'authorization': `Bearer ${token}`
+                    'authorization': `Bearer ${arr[1]}`
                 }
             })
+        }),
+        addComment: builder.mutation({
+            query: (arr) => ({
+                url: `products/review/${arr[0]}`,
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    'authorization': `Bearer ${arr[1]}`
+                },
+                body: arr[2]
+            }),
+            invalidatesTags: ['SingleProduct']
+        }),
+        deleteComment: builder.mutation({
+            query: (arr) => ({
+                url: `/products/review/${arr[0]}/${arr[1]}`,
+                method: 'DELETE',
+                headers: {
+                    'Content-type': 'application/json',
+                    'authorization': `Bearer ${arr[2]}`
+                }
+            }),
+            invalidatesTags: ['SingleProduct']
         }),
         like: builder.mutation({
             query: (id, token) => ({
@@ -89,6 +112,9 @@ export const {
     useSignInMutation, 
     useGetAllProductsQuery, 
     useGetSingleProductQuery, 
+    useGetOtherUserInfoQuery,
+    useAddCommentMutation,
+    useDeleteCommentMutation,
     useGetProductRewiewsQuery, 
     useLikeMutation, 
     useDelelteLikeMutation, 
