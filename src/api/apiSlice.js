@@ -29,49 +29,73 @@ export const apiSlice = createApi({
                     'authorization': `Bearer ${token}`
                 }
             }),
-            transformResponse: (res) => res.products
+            transformResponse: (res) => res.products,
+            providesTags: ['Products']
         }),
         getSingleProduct: builder.query({
-            query: (arr) => ({
-                url: `products/${arr[0]}`,
+            query: ({productId, token}) => ({
+                url: `products/${productId}`,
                 headers: {
                     'Content-type': 'application/json',
-                    'authorization': `Bearer ${arr[1]}`
+                    'authorization': `Bearer ${token}`
                 }
             }),
             providesTags: ['Products', 'SingleProduct']
         }),
         getOtherUserInfo: builder.query({
-            query: (arr) => ({
-                url: `/v2/sm8/users/${arr[0]}`,
+            query: ({authorId, token}) => ({
+                url: `/v2/sm8/users/${authorId}`,
                 headers: {
                     'Content-type': 'application/json',
-                    'authorization': `Bearer ${arr[1]}`
+                    'authorization': `Bearer ${token}`
                 }
             })
         }),
         addComment: builder.mutation({
-            query: (arr) => ({
-                url: `products/review/${arr[0]}`,
+            query: ({_id, token, values}) => ({
+                url: `products/review/${_id}`,
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
-                    'authorization': `Bearer ${arr[1]}`
+                    'authorization': `Bearer ${token}`
                 },
-                body: arr[2]
+                body: values
             }),
             invalidatesTags: ['SingleProduct']
         }),
         deleteComment: builder.mutation({
-            query: (arr) => ({
-                url: `/products/review/${arr[0]}/${arr[1]}`,
+            query: ({productId, commentId, token}) => ({
+                url: `/products/review/${productId}/${commentId}`,
                 method: 'DELETE',
                 headers: {
                     'Content-type': 'application/json',
-                    'authorization': `Bearer ${arr[2]}`
+                    'authorization': `Bearer ${token}`
                 }
             }),
             invalidatesTags: ['SingleProduct']
+        }),
+        createProduct: builder.mutation({
+            query: (arr) => ({
+                url: `/products/`,
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    'authorization': `Bearer ${arr[0]}`
+                },
+                body: arr[1]
+            }),
+            invalidatesTags: ['Products']
+        }),
+        deleteProduct: builder.mutation({
+            query: ({productId, token}) => ({
+                url: `/products/${productId}`,
+                method: 'DELETE',
+                headers: {
+                    'Content-type': 'application/json',
+                    'authorization': `Bearer ${token}`
+                }
+            }),
+            invalidatesTags: ['Products']
         }),
         like: builder.mutation({
             query: (id, token) => ({
@@ -115,6 +139,8 @@ export const {
     useGetOtherUserInfoQuery,
     useAddCommentMutation,
     useDeleteCommentMutation,
+    useCreateProductMutation,
+    useDeleteProductMutation,
     useGetProductRewiewsQuery, 
     useLikeMutation, 
     useDelelteLikeMutation, 

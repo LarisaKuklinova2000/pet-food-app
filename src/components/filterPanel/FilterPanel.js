@@ -1,5 +1,5 @@
 import {useSelector, useDispatch} from 'react-redux'
-import {changeFilter, changeTerm} from './filtersSlice'
+import {changeFilter, changeTerm, setShowModal} from './filtersSlice'
 import './filterPanel.scss'
 
 const FilterPanel = () => {
@@ -33,14 +33,21 @@ const FilterPanel = () => {
 
     return (
         <>
-        <div className='btn__wrapper'>
-            <div className='btn-group'>{buttons}</div>
-        </div>
-        <input type="text"
-                className="form-control search-input"
-                placeholder="Найти товар"
-                value={term}
-                onChange={(e) => dispatch(changeTerm(e.target.value))} />
+            <div className='btn__wrapper'>
+                <div className='btn-group'>{buttons}</div>
+            </div>
+            <input type="text"
+                    className="form-control search-input"
+                    placeholder="Найти товар"
+                    value={term}
+                    onChange={(e) => dispatch(changeTerm(e.target.value))} />
+            <i 
+                className="fa-solid fa-circle-plus"
+                onClick={() => {
+                    dispatch(setShowModal())
+                    document.body.style.overflow = 'hidden'
+                }}
+                ></i>
         </>
     )
 

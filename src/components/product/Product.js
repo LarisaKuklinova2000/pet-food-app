@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
+import { useDeleteProductMutation } from '../../api/apiSlice'
 import { addProductToBasket, deleteProductFromBasket} from "../basket/basketSlice"
 import { addProductToFavorite, deleteProductFromFavorite } from '../favorite/favoriteSlice'
 import ApiService from "../../services/ApiService";
@@ -11,12 +12,14 @@ const Product = (props) => {
     const dispatch = useDispatch()
     const {basketItems} = useSelector(state => state.basket)
     const {favoriteItems} = useSelector(state => state.favorite)
+    const {token, myInfo} = useSelector(state => state.regInfo)
+    const [deleteProduct] = useDeleteProductMutation()
 
     const [likesArr, setLikesArr] = useState(props.likes)
     const [likes, setLikes] = useState(props.likes.length)
     const [heartClass, setHeartClass] = useState(props.likes.includes(props.userId)? "fa-solid fa-heart": "fa-regular fa-heart")
 
-    const {id, name, discount, price, stock, pictures, description } = props
+    const {id, name, discount, price, stock, pictures, description, authorId } = props
 
     const apiService = new ApiService()
     
@@ -98,6 +101,16 @@ const Product = (props) => {
                         className={heartClass}
                         onClick={() => likeOrDislike()}>
                     </i>
+                    {authorId === myInfo._id?
+                    <div>
+                        <i 
+                            className="fa-solid fa-trash-can"
+                            onClick={() => deleteProduct({
+                                productId: id,
+                                token
+                            })}
+                        ></i>
+                    </div>:null}
                     <div className="likesCount">{likes}</div>
                 </div>
             </div>

@@ -60,6 +60,7 @@ const FoodItemList = () => {
                                             unmountOnExit
                                             ><Product
                                                 key={item._id}
+                                                authorId={item.author._id}
                                                 id={item._id} 
                                                 discount={item.discount} 
                                                 price={item.price} 

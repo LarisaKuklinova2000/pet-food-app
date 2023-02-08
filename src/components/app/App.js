@@ -11,7 +11,8 @@ import SignIn from "../signUp/SignIn";
 import SingleProductPage from '../singleProductPage/SingleProductPage'
 import AboutMe from "../aboutMe/AboutMe"
 import Basket from '../basket/Basket'
-import Favorite from "../favorite/Favorite";
+import Favorite from "../favorite/Favorite"
+import CreateProductModal from "../addProductForm/CreateProductModal";
 
 const App = () => {
 
@@ -37,6 +38,7 @@ const App = () => {
 			<div className="app">
 			<AppHeader 
 				myName={myName}/>
+			<CreateProductModal />
 				<main>
 					<Routes>
 						<Route path='/' element={token? <Navigate to='/catalog' />: <Navigate to='/sign' />}/>

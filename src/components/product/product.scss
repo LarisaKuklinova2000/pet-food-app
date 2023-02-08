@@ -113,7 +113,7 @@
                 color: rgb(15, 22, 114);
                 transition: 0.5s;
                 cursor: pointer;
-                transition: all 1s ease;
+                transition: all 0.4s ease;
                 &:hover {
                     scale: 1.5;
                 }
@@ -134,6 +134,11 @@
                 bottom: 25px;
                 right: 10px;
                 color: rgb(15, 22, 114);
+            }
+            .fa-trash-can {
+                bottom: 70px;
+                right: 15px;
+                color: #5c5b5b;
             }
         }
     }

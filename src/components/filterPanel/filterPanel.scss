@@ -39,6 +39,15 @@
     padding: 0 10px;
 }
 
+.fa-circle-plus {
+    font-size: 40px;
+    position: absolute;
+    right: 0;
+    top: 180px;
+    color: rgb(0, 90, 0);
+    cursor: pointer;
+}
+
 @media (max-width: 1170px) {
     .btn__wrapper {
         .btn-group {

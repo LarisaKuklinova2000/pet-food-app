@@ -8,11 +8,13 @@ const Comment = (props) => {
     const {rating, text, authorId, commentId, productId} = props
 
     const {token, myInfo} = useSelector(state => state.regInfo)
-    const argsArr = [authorId, token]
     const {
         data: author = {},
         isLoading
-    } = useGetOtherUserInfoQuery(argsArr);
+    } = useGetOtherUserInfoQuery({
+        authorId,
+        token
+    });
     const [delelteComent] = useDeleteCommentMutation()
 
     const {name, about, avatar, email} = author
@@ -36,9 +38,12 @@ const Comment = (props) => {
                     <div>
                         <i 
                             className="fa-solid fa-trash-can"
-                            onClick={() => {
-                                delelteComent([productId, commentId, token])
-                            }}
+                            onClick={() => 
+                                delelteComent({
+                                    productId,
+                                    commentId,
+                                    token
+                                })}
                             ></i>
                     </div>:null}
                 <div className='comment__item-rating'>{fire(rating)}</div>

@@ -41,3 +41,18 @@
         color: rgb(95, 95, 95);
     }
 }
+
+.comment-item-enter {
+    opacity: 0;
+}
+.comment-item-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+.comment-item-exit {
+    opacity: 1;
+}
+.comment-item-exit-active {
+    opacity: 0;
+    transition: opacity 500ms ease-in;
+}

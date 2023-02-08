@@ -2,7 +2,8 @@ import { useParams, Link } from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import { useGetSingleProductQuery, useAddCommentMutation } from '../../api/apiSlice'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
-import moment from "moment/moment";
+import moment from "moment/moment"
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import Comment from '../commentItem/Comment'
 import Spinner from "../spinner/Spinner"
 import './singleProductPage.scss'
@@ -11,12 +12,14 @@ const SingleProductPage = () => {
 
     const { productId } = useParams();
     const {token, myInfo} = useSelector(state => state.regInfo)
-    const argsArr = [productId, token]
     const {
         data: product = {},
         isLoading,
         isSuccess
-    } = useGetSingleProductQuery(argsArr)
+    } = useGetSingleProductQuery({
+        productId,
+        token
+    })
     const [addComment] = useAddCommentMutation()
 
     const raitingCounter = (item) => {
@@ -30,13 +33,19 @@ const SingleProductPage = () => {
     const sortedRewiews = [...reviews].sort((a, b) => moment(b.created_at) - moment(a.created_at))
 
     const comments = sortedRewiews.map(item => {
-        return <Comment
+        return <CSSTransition
                     key={item._id}
-                    authorId={item.author} 
-                    rating={item.rating} 
-                    text={item.text} 
-                    commentId={item._id}
-                    productId={_id} />
+                    timeout={300}
+                    classNames="comment-item">
+                    <Comment
+                        key={item._id}
+                        authorId={item.author} 
+                        rating={item.rating} 
+                        text={item.text} 
+                        commentId={item._id}
+                        productId={_id} />
+                </CSSTransition>
+        
     })
 
     return (
@@ -63,7 +72,11 @@ const SingleProductPage = () => {
                         rating: 1
                     }}
                     onSubmit = {(values, {resetForm}) => {
-                        addComment([_id, token, values]).unwrap().then(res => console.log(res))
+                        addComment({
+                            _id,
+                            token,
+                            values
+                        }).unwrap()
                         resetForm()
                     }}
                     >
@@ -95,7 +108,11 @@ const SingleProductPage = () => {
                         </div>   
                     </Form>
                 </Formik>
-                {isSuccess && reviews.length> 0? comments: null}
+                {isSuccess && reviews.length> 0?
+                <TransitionGroup>
+                    {comments}
+                </TransitionGroup>:
+                <div key={'njnjnjnj'} className='comment__item'>комментариев пока нет, оставьте свой?</div>}
             </div>
         </div>
     )
